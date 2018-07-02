@@ -76,6 +76,13 @@ setup(
             # valid datalad interface specification (see demo in this extensions
             'hirni=datalad_hirni:command_suite',
         ],
+        # 'datalad.webapps' is THE entrypoint inspected by the datalad webapp command
+        'datalad.webapps': [
+            # the label in front of '=' is the webapp name
+            # the entrypoint can point to any symbol of any name, as long it is
+            # valid datalad interface specification
+            'hirni_specedit=datalad_hirni.webapp.specedit.app:SpecEditApp',
+        ],
         'datalad.tests': [
             'hirni=datalad_hirni',
         ],
