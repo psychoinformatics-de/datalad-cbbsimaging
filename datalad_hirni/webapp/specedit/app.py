@@ -30,7 +30,7 @@ class SpecEditApp(object):
     @cherrypy.expose
     #@cherrypy.tools.verify_datalad_hostsecret()
     def q(self):
-        return """
+        return """<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="css/index.css">
@@ -67,7 +67,6 @@ class SpecEditApp(object):
     @cherrypy.expose
     @cherrypy.tools.json_in()
     def save(self):
-        print("DUMMY")
         input_json = cherrypy.request.json
 
         print(input_json)
