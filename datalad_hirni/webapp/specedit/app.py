@@ -35,6 +35,7 @@ class SpecEditApp(object):
     <head>
         <link rel="stylesheet" href="css/index.css">
         <script src="js/vue.js"></script>
+        <script src="js/axios.min.js"></script>
     </head>
     <body>
         <div id="app">

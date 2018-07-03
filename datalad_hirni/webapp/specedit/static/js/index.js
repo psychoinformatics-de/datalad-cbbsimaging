@@ -1,9 +1,5 @@
-//Vue.http.options.emulateJSON = true; // send as
-//import VueResource from "vue-resource";
-
-var app = new Vue({ 
+var app = new Vue({
     el: '#app',
-    debug: true,
     data: {
        specs: [{"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":null},"bids_run":{"approved":false,"value":"Localizer"},"bids_acquisition":{"approved":false,"value":"r30"},"bids_task":{"approved":false,"value":"Localizer"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"Localizer"},"id":{"approved":false,"value":1},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.2016022609043983667300824.0.0.0"},
 {"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":"t1"},"bids_acquisition":{"approved":false,"value":"r30"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"t1_mpr_sag_1iso_p2"},"id":{"approved":false,"value":2},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.2016022609051444472300840.0.0.0"},
@@ -19,5 +15,17 @@ var app = new Vue({
 {"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":"bold"},"bids_run":{"approved":false,"value":"10"},"bids_acquisition":{"approved":false,"value":"r30"},"bids_task":{"approved":false,"value":"orientation"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"epi2d_bold_3.0iso_10"},"id":{"approved":false,"value":12},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.2016022609514923274121039.0.0.0"},
 {"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":null},"bids_run":{"approved":false,"value":"grefieldmapping"},"bids_acquisition":{"approved":false,"value":"r30"},"bids_task":{"approved":false,"value":"grefieldmapping"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"gre_field_mapping"},"id":{"approved":false,"value":13},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.2016022609560645671934242.0.0.0"},
 {"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":null},"bids_run":{"approved":false,"value":"grefieldmapping"},"bids_acquisition":{"approved":false,"value":"r30"},"bids_task":{"approved":false,"value":"grefieldmapping"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"gre_field_mapping"},"id":{"approved":false,"value":14},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.2016022609560645674234243.0.0.0"},
-{"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":null},"bids_run":{"approved":false,"value":"PhoenixDocument"},"bids_acquisition":{"approved":false,"value":"r30"},"bids_task":{"approved":false,"value":"PhoenixDocument"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"PhoenixZIPReport"},"id":{"approved":false,"value":99},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.30000016022608044226100000002"}]}
+{"anon_subject":{"approved":false,"value":"17"},"bids_modality":{"approved":false,"value":null},"bids_run":{"approved":false,"value":"PhoenixDocument"},"bids_acquisition":{"approved":false,"value":"r30"},"bids_task":{"approved":false,"value":"PhoenixDocument"},"comment":{"approved":false,"value":""},"converter":{"approved":false,"value":"heudiconv"},"dataset_id":"6cc47142-658a-11e8-a734-a0369fb55db0","dataset_refcommit":"0473940acae98ecd7c285e5fedcc0a4ca45b0212","description":{"approved":false,"value":"PhoenixZIPReport"},"id":{"approved":false,"value":99},"location":"bh27_0964/dicoms","status":null,"subject":{"approved":false,"value":"bh27"},"type":"dicomseries","uid":"1.3.12.2.1107.5.2.43.66017.30000016022608044226100000002"}
+]},
+    methods: {
+        checkForm: function() {
+            axios.post('/save', this.$data.specs)
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+    }
 });
