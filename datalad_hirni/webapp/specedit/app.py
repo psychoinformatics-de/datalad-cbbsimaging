@@ -1,6 +1,6 @@
-from os.path import dirname
-from os.path import join as opj
+import os.path as op
 
+from datalad.support.json_py import load_stream
 import cherrypy
 from cherrypy import tools
 
@@ -11,9 +11,9 @@ cherrypy.tools.verify_datalad_hostsecret = cherrypy.Tool(
 
 
 class SpecEditApp(object):
-    _webapp_dir = dirname(__file__)
+    _webapp_dir = op.dirname(__file__)
     _webapp_staticdir = 'static'
-    _webapp_config = opj(_webapp_dir, 'app.conf')
+    _webapp_config = op.join(_webapp_dir, 'app.conf')
 
     def __init__(self, dataset):
         from datalad.distribution.dataset import require_dataset
@@ -63,6 +63,19 @@ class SpecEditApp(object):
     </body>
 </html>
 """
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def get_sessionspec(self, id):
+        specpath = op.normpath(op.join(self.ds.path, id, 'studyspec.json'))
+        if op.relpath(specpath, start=self.ds.path).startswith(op.pardir):
+            raise ValueError(
+                "Path to session specification does not point into local dataset: %s",
+                specpath)
+        if not op.exists(specpath):
+            raise ValueError(
+                'Session specification does not exist: %s', specpath)
+        return list(load_stream(specpath))
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
