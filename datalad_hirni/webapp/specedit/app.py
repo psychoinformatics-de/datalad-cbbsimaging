@@ -1,6 +1,7 @@
 import os.path as op
 
 from datalad.support.json_py import load_stream
+from datalad.support.json_py import dump2stream
 import cherrypy
 from cherrypy import tools
 
@@ -30,6 +31,7 @@ class SpecEditApp(object):
     @cherrypy.expose
     #@cherrypy.tools.verify_datalad_hostsecret()
     def q(self, id=None):
+        # TODO sanitize id
         return """<!DOCTYPE html>
 <html>
     <head>
@@ -67,7 +69,7 @@ var app = new Vue({
     },
     methods: {
         checkForm: function() {
-            axios.post('/save', this.$data.specs)
+            axios.post('/save?id=%s', this.$data.specs)
             .then(function (response) {
               console.log(response);
             })
@@ -87,16 +89,12 @@ axios.get('/get_sessionspec?id=%s')
         </script>
     </body>
 </html>
-""" % id
+""" % (id, id)
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def get_sessionspec(self, id):
-        specpath = op.normpath(op.join(self.ds.path, id, 'studyspec.json'))
-        if op.relpath(specpath, start=self.ds.path).startswith(op.pardir):
-            raise ValueError(
-                "Path to session specification does not point into local dataset: %s",
-                specpath)
+        specpath = self.specpath_from_id(id)
         if not op.exists(specpath):
             raise ValueError(
                 'Session specification does not exist: %s', specpath)
@@ -104,7 +102,15 @@ axios.get('/get_sessionspec?id=%s')
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
-    def save(self):
-        input_json = cherrypy.request.json
+    def save(self, id):
+        specpath = self.specpath_from_id(id)
+        dump2stream(cherrypy.request.json, specpath, compressed=False)
 
-        print(input_json)
+
+    def specpath_from_id(self, id):
+        specpath = op.normpath(op.join(self.ds.path, id, 'studyspec.json'))
+        if op.relpath(specpath, start=self.ds.path).startswith(op.pardir):
+            raise ValueError(
+                "Path to session specification does not point into local dataset: %s",
+                specpath)
+        return specpath
