@@ -29,7 +29,7 @@ class SpecEditApp(object):
 
     @cherrypy.expose
     #@cherrypy.tools.verify_datalad_hostsecret()
-    def q(self):
+    def q(self, id=None):
         return """<!DOCTYPE html>
 <html>
     <head>
@@ -59,10 +59,35 @@ class SpecEditApp(object):
   </ul>
         <input type="button" @click="checkForm" value="Submit">
         </div>
-        <script src="js/index.js"></script>
+        <script>
+var app = new Vue({
+    el: '#app',
+    data: {
+      specs: []
+    },
+    methods: {
+        checkForm: function() {
+            axios.post('/save', this.$data.specs)
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+    }
+});
+axios.get('/get_sessionspec?id=%s')
+    .then(function (response) {
+        app.$data.specs = response.data;
+        })
+    .catch(function (error) {
+        console.log(error);
+        })
+        </script>
     </body>
 </html>
-"""
+""" % id
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
