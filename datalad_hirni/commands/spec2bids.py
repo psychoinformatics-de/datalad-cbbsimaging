@@ -180,7 +180,7 @@ class Spec2Bids(Interface):
                          # https://github.com/nipy/heudiconv/issues/196
                          '-o', rel_trash_path,
                          '-b',
-                         '-a', '{{pwd}}'
+                         '-a', '{pwd}'
                          if op.realpath(target_dir) == op.realpath(dataset.path) else target_dir,
                          '-l', '',
                          # avoid glory details provided by dcmstack, we have
