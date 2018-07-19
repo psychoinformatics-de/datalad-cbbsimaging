@@ -30,8 +30,7 @@ class SpecEditApp(object):
 
     @cherrypy.expose
     #@cherrypy.tools.verify_datalad_hostsecret()
-    def q(self, id=None):
-        # TODO sanitize id
+    def q(self, **params):
         return """<!DOCTYPE html>
 <html>
     <head>
@@ -62,6 +61,20 @@ class SpecEditApp(object):
         <input type="button" @click="checkForm" value="Submit">
         </div>
         <script>
+//source https://stackoverflow.com/a/31057221
+var getUrlParams = function (url) {
+  var params = {};
+  (url + '?').split('?')[1].split('&').forEach(function (pair) {
+    pair = (pair + '=').split('=').map(decodeURIComponent);
+    if (pair[0].length) {
+      params[pair[0]] = pair[1];
+    }
+  });
+  return params;
+};
+
+var id = getUrlParams(window.location.href)['id'];
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -69,7 +82,7 @@ var app = new Vue({
     },
     methods: {
         checkForm: function() {
-            axios.post('/save?id=%s', this.$data.specs)
+            axios.post('/save?id=' + id, this.$data.specs)
             .then(function (response) {
               console.log(response);
             })
@@ -79,17 +92,18 @@ var app = new Vue({
         }
     }
 });
-axios.get('/get_sessionspec?id=%s')
+
+axios.get('/get_sessionspec?id=' + id)
     .then(function (response) {
         app.$data.specs = response.data;
-        })
+    })
     .catch(function (error) {
         console.log(error);
-        })
+    })
         </script>
     </body>
 </html>
-""" % (id, id)
+"""
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
