@@ -7,6 +7,7 @@ from os.path import join as opj
 
 from datalad.interface.base import build_doc
 from datalad.distribution.create import Create
+from datalad.plugin.add_readme import AddReadme
 
 from datalad.support.constraints import EnsureKeyChoice
 from datalad.distribution.dataset import Dataset
@@ -63,7 +64,8 @@ class CreateStudy(Create):
                 result_filter=EnsureKeyChoice('action', ('create',)) & \
                             EnsureKeyChoice('status', ('ok', 'notneeded'))):
             if r['type'] == 'dataset':
-                _cfg_dataset(r)
+                for cr in _cfg_dataset(r):
+                    yield cr
 
             yield r
 
@@ -93,8 +95,13 @@ def _cfg_dataset(r):
     study_ds.config.add('datalad.hirni.import.acquisition-format',
                         "{PatientID}",
                         where='dataset')
+
     for r in study_ds.save(message='Initial datalad config'):
         yield r
+    # Include the most basic README to prevent heudiconv from adding one
+    for r in study_ds.add_readme(filename='README', existing='fail'):
+        yield r
+
 
 ########################## CONTAINER TODO: Use datalad-container extension!
 
