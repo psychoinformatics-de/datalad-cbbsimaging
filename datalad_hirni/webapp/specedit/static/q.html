@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+  </head>
+<body>
+
+<div id="app">
+  <ul>
+    <li v-for="spec in specs">
+      <ul>
+        <li v-for="(sval, skey) in spec">
+          <div v-if="sval === Object(sval)">
+            <!-- this is some editable property -->
+            <label form="specform">{{skey}}</label>
+            <input v-model="sval.value" placeholder="edit me" :disabled="sval.approved">
+            <input type="checkbox" id="skey" v-model="sval.approved">
+          </div>
+          <div v-else>
+            <!-- this is a fact -->
+            <strong>NO</strong> {{ skey }}: {{ sval }}
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <input type="button" @click="checkForm" value="Submit">
+</div>
+
+<script>
+//source https://stackoverflow.com/a/31057221
+var getUrlParams = function (url) {
+  var params = {};
+  (url + '?').split('?')[1].split('&').forEach(function (pair) {
+    pair = (pair + '=').split('=').map(decodeURIComponent);
+    if (pair[0].length) {
+      params[pair[0]] = pair[1];
+    }
+  });
+  return params;
+};
+
+var id = getUrlParams(window.location.href)['id'];
+
+var app = new Vue({
+    el: '#app',
+    data: {
+      specs: []
+    },
+    methods: {
+        checkForm: function() {
+            axios.post('/save?id=' + id, this.$data.specs)
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+    }
+});
+
+axios.get('/get_sessionspec?id=' + id)
+    .then(function (response) {
+        app.$data.specs = response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+</script>
+</body>
+</html>
