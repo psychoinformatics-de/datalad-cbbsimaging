@@ -54,7 +54,7 @@ datatype_labels_map = {
     'magnitude2': 'fmap',
     'fieldmap': 'fmap',
 
-    'epi': 'fmap',  # TODO?
+    'epi': 'func'
 }
 
 # map specification keys to BIDS abbreviation used in paths
