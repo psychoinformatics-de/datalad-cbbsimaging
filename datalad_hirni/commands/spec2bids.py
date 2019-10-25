@@ -85,6 +85,7 @@ class Spec2Bids(Interface):
 
         specfile = assure_list(specfile)
         specfile = [resolve_path(p, dataset) for p in specfile]
+        specfile = [str(p) for p in specfile]
 
         for spec_path in specfile:
 

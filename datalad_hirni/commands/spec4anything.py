@@ -138,6 +138,12 @@ class Spec4Anything(Interface):
                                   purpose="hirni spec4anything")
         path = assure_list(path)
         path = [resolve_path(p, dataset) for p in path]
+        # TODO: the following is currently necessary, since resolve_path might
+        # return PosixPath since datalad0.12.0rc6,
+        # while AnnotatePaths and underlying functions would fail to deal
+        # with it.
+        #       Real solution: Implement hirni commands in new-style
+        path = [str(p) for p in path]
 
         res_kwargs = dict(action='hirni spec4anything', logger=lgr)
         res_kwargs['refds'] = Interface.get_refds_path(dataset)

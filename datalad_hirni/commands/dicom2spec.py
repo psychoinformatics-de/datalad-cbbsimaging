@@ -330,6 +330,7 @@ class Dicom2Spec(Interface):
         if path is not None:
             path = assure_list(path)
             path = [resolve_path(p, dataset) for p in path]
+            path = [str(p) for p in path]
         else:
             raise InsufficientArgumentsError(
                 "insufficient arguments for dicom2spec: a path is required")
@@ -344,7 +345,7 @@ class Dicom2Spec(Interface):
 
             # TODO: That's prob. wrong. We can derive default spec from acquisition
         else:
-            spec = resolve_path(spec, dataset)
+            spec = str(resolve_path(spec, dataset))
 
         spec_series_list = \
             [r for r in json_py.load_stream(spec)] if op.exists(spec) else list()
