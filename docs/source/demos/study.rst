@@ -4,7 +4,7 @@ An example study
 ****************
 
 This is a simple example showing how to create a study dataset with datalad-hirni
-and how to import data into such a dataset. The raw data we use for this demo is publicly available from two example repositories at github.
+and how to import data into such a dataset. The raw data we use for this demo is publicly available from two example repositories at GitHub.
 For reference what this data is about, simply visit https://github.com/datalad/example-dicom-functional/
 and https://github.com/datalad/example-dicom-structural/ in your browser. For all commands to work in the exact form shown here, create a directory for that demo first and switch into it::
 
@@ -21,9 +21,9 @@ First off, we need a study raw dataset to bundle all raw data in a structured wa
   % datalad run-procedure cfg_hirni
 
 The first command will create a datalad dataset with nothing special about it. The last, however, runs a hirni procedure, that will do several things to make this a study dataset.
-Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's `toolbox dataset <{filename}tools/toolbox.rst>`_ as a subdataset of `my_raw_dataset`.
-Note, that by default the toolbox is installed from github. If you need to install from elsewhere, you can set the `datalad.hirni.toolbox.url` config to point to another URL prior to running ``cfg_hirni``.
-It now should like this::
+Apart from setting some configurations like enabling the extraction of DICOM metadata, it will create a default README file, a dataset_description.json template file, an initial study specification file and it will install hirni's :ref:`toolbox dataset <chap_toolbox>` dataset as a subdataset of `my_raw_dataset`.
+Note, that by default the toolbox is installed from GitHub. If you need to install from elsewhere, you can set the `datalad.hirni.toolbox.url` config to point to another URL prior to running ``cfg_hirni``.
+It now should look like this::
 
   % tree -L 2
   .
@@ -63,7 +63,7 @@ This will add the DICOMS to our dataset, extract metadata from their headers and
 A hirni study dataset is supposed to put all data of each acquisition into a dedicated subdirectory, which also contains a specification file for that acquisition.
 We can give the command a name for such an acquisition or let it try to derive one from what it finds in the DICOM headers. Everything that is automatically concluded from the metadata can be overwritten by options to that command, of course.
 Something that can't automatically be derived, of course, are anonymized subject identifiers. This association will be needed for anonymized conversion. You can add those IDs later, of course, but we can do it right from the start via the option `--anon-subject`.
-`datalad hirni-import-dcm` can import such tarballs either from a local path or an URL. For this demo we use the above mentioned example data available from github::
+`datalad hirni-import-dcm` can import such tarballs either from a local path or an URL. For this demo we use the above mentioned example data available from GitHub::
 
   % datalad hirni-import-dcm --anon-subject 001 https://github.com/datalad/example-dicom-structural/archive/master.tar.gz acq1
 
@@ -98,11 +98,11 @@ Editing or adding such a specification is again possible via the webUI. For the 
   % datalad hirni-spec4anything acq2/events.tsv --properties '{"procedures": {"procedure-name": "copy-converter", "procedure-call": "bash {script} {{location}} {ds}/sub-{{bids-subject}}/func/sub-{{bids-subject}}_task-{{bids-task}}_run-{{bids-run}}_events.tsv"}, "type": "events_file"}'
 
 What we pass here into the `properties` option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
-Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of datalad and the datalad-hirni extension is accessible via a Python API as well)
-For a more extensive description of the specification (and therefore those `properties`) see the `specification page <{filename}study_specification.rst>`_.
+Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of Datalad and the datalad-hirni extension is accessible via a Python API as well)
+For a more extensive description of the specification (and therefore those `properties`) see the :ref:`specification page <_chap_specification>`.
 
 If you ran all the commands in this demo the exact same way as posted, your dataset should now look exactly like this: https://github.com/psychoinformatics-de/hirni-demo
-For comparison you can examine it on github or install it locally to have a closer look via::
+For comparison you can examine it on GitHub or install it locally to have a closer look via::
 
   % cd ..
   % datalad install -s https://github.com/psychoinformatics-de/hirni-demo --recursive

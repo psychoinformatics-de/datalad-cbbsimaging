@@ -4,7 +4,7 @@ Customization
 *************
 
 There are a lot of ways to customize datalad-hirni. Some things are just a matter of configuration settings, while
-others involve a few lines of (python) code.
+others involve a few lines of (Python) code.
 
 Configuration
 =============
@@ -28,7 +28,7 @@ configurable as well.
     Use this configuration to change the default name for specification files (``studyspec.json``).
 
 **datalad.hirni.dicom2spec.rules**
-    Set this to point to a python file defining rules for how to derive a specification from DICOM metadata. (See below
+    Set this to point to a Python file defining rules for how to derive a specification from DICOM metadata. (See below
     for more on implementing such rules). This configuration can be set multiple times, which will result in those rules
     overwriting each other. Therefore the order in which they are specified matters, with the later rules overwriting
     earlier ones. As with any DataLad configuration in general, the order of sources would be *system*, *global*,
@@ -37,7 +37,7 @@ configurable as well.
     could either go with what the previous level decided or overwrite it.
 
 **datalad.hirni.import.acquisition-format**
-    This setting allows to specify a python format string, that will be used by ``datalad hirni-import-dcm`` if no
+    This setting allows to specify a Python format string, that will be used by ``datalad hirni-import-dcm`` if no
     acquisition name was given. It defines the name to be used for an acquisition (the directory name) based on DICOM
     metadata. The default value is ``{PatientID}``. Something that is enclosed with curly brackets will be replaced by
     the value of a variable with that name everything else is taken literally. Every field of the DICOM headers is

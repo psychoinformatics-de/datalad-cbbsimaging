@@ -19,7 +19,7 @@ it up as a hirni dataset, you can use a builtin routine called ``cfg_hirni`` whi
 procedure_. Ideally you create your dataset right at the moment you start (planning) your study. Even without any actual
 data, there is basic metadata you might already be able to capture by (partially) filling ``dataset_description.json``,
 ``README``, ``CHANGELOG`` etc. Hirni's webUI might be of help here.
-The idea is then to add all data to the dataset as it comes into existence. That is, for each acquisition import the
+The idea is then to add all data to the dataset as it comes into existence. That is, for each acquisition, import the
 DICOMs, import all additional data, possibly edit the specification. It's like writing documentation for your code: If
 you don't do it at the beginning, chances are you'll never properly do it at all.
 You can always edit and add things later, of course.
@@ -38,7 +38,7 @@ achieve the same result differently.
 The first step is to retrieve the tarball, of course, extract its content and create a dataset from it. If you passed an
 acquisition directory to the command it will create this dataset in ``dicoms/`` underneath that directory. Otherwise it
 is created at a temporary location.
-Then the DICOM metadata is extracted. If the acquisition directory wasn't given, a name for the aquisition is derived
+Then the DICOM metadata is extracted. If the acquisition directory wasn't given, a name for the acquisition is derived
 from that metadata (how exactly this is done is configurable) the respective directory created and the dataset is moved
 into it from its temporary location.
 Either way there's a new subdataset beneath the respective acquisition directory by now and it provides extracted DICOM
@@ -78,11 +78,11 @@ execute the actual conversion as specified in the specification files.
 Note, that it is not required to convert the entire dataset at once. Instead, the conversion is called on particular
 specification files and can be further limited to convert a particular type of data as listed in the respective
 specification file.
-Furthermore ``hirni-spec2bids`` comes with an ``--anonymize`` switch. This will do several things: It will choose what
+Furthermore, ``hirni-spec2bids`` comes with an ``--anonymize`` switch. This will do several things: It will choose what
 subject identifier to use in the converted dataset. For that a specification has a `subject` and a `anon_subject` field
 to chose from. So, usually `subject` will contain the identifier as it comes from the DICOMs (likely pseudo-anonymized),
 while `anon_subject` allows you to specify an anonymized identifier in addition.
-Secondly ``--anonymize`` will cause the conversion to encrypted generated commit messages in order to disguise possibly
+Secondly, ``--anonymize`` will cause the conversion to encrypted generated commit messages in order to disguise possibly
 revealing paths. Finally, conversion procedures listed in specifications can declare to be executed only if the
 ``--anonymize`` switch was used. This mechanism allows to trigger things like a defacing after the conversion of DICOM
 to Nifti.

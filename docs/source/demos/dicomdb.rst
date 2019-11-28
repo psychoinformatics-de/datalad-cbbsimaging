@@ -1,9 +1,8 @@
-DICOM datasets that have been `imported into a study raw dataset
-<{filename}import_dicoms.rst>`_ can (additionally) be collected in scanner (or
-institution or lab) specific superdatasets. This allows for convenient record
-keeping of all relevant MR data acquisitions ever made in a given context.  The
-example script at the bottom of this page shows how to bootstrap such a
-database.
+DICOM datasets that have been :ref:`imported into a study raw dataset <chap_demos_study>`
+can (additionally) be collected in scanner (or institution or lab) specific superdatasets.
+This allows for convenient record keeping of all relevant MR data acquisitions
+ever made in a given context. The example script at the bottom of this page shows
+how to bootstrap such a database.
 
 Such superdatasets are lightweight, as they do not contain actual imaging data,
 and can be queried using a flexible language. In the DICOM context it is often
@@ -44,7 +43,7 @@ Report any scans for a particular subject ID::
    action summary:
      search (ok: 6)
 
-For each search hit ALL available metadata is returned. This allows for sophisticated output formating.
+For each search hit ALL available metadata is returned. This allows for sophisticated output formatting.
 Here is an example that reports all studies a particular subject has participated in::
 
    % datalad -f '{metadata[dicom][Series][0][StudyDescription]}' search -f 'xx99*' | uniq
@@ -104,7 +103,7 @@ series, or individual DICOM images (see above for query examples).
    datalad install -d . -s ../7t
    datalad install -d . -s ../3t
 
-   # this second part needs to be done everytime the metadata DB shall be updated
+   # this second part needs to be done every time the metadata DB shall be updated
    # get the latest state of the scanner datasets (no heavy stuff is moved around)
    datalad update --merge -r
    # aggregate from the aggregated metadata
