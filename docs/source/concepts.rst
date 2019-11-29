@@ -10,10 +10,10 @@ One thing to bind them all
 The central piece of the envisioned structure is a Datalad dataset_, containing (i.e. referencing) all the raw data of a
 study alongside code, containers, protocols, metadata, ... you name it. Everything that is making up your study and can be
 considered raw, in that it cannot be derived from other raw information that is already included.
-Furthermore, this dataset is supposed to have a subdirectory per each aquisition, which in turn should contain a
-subdataset for the DICOM files. All other data aquired besides (like physiological data, stimulation log files, etc.) as
-well as any other information specific to that aquisition should go beneath the respective
-aquisition subdirectory. Apart from that, it's entirely up to you to decide about the structure within those aquisition
+Furthermore, this dataset is supposed to have a subdirectory per each acquisition, which in turn should contain a
+subdataset for the DICOM files. All other data acquired besides (like physiological data, stimulation log files, etc.) as
+well as any other information specific to that acquisition should go beneath the respective
+acquisition subdirectory. Apart from that, it's entirely up to you to decide about the structure within those acquisition
 directories.
 
 .. image:: _static/studyds.png
@@ -24,7 +24,7 @@ Let the results of a process be captured in a dataset and reference the input da
 of datasets as software packages and subdatasets as dependencies. In other words: Learn from YODA_!
 
 The second piece is the study specification. This is an additional metadata layer, the conversion of the dataset will be
-based on. It consists of JSON files within the dataset and decribes contained data (files, directories or "logical entities")
+based on. It consists of JSON files within the dataset and describes contained data (files, directories or "logical entities")
 in terms of the conversion target. For example in case of BIDS as the targeted layout it should assign the BIDS terms
 used by BIDS to determine file names and locations to each image series contained in the DICOM files.
 In addition the specification allows to define (custom) conversion routines for each data entity it describes. Furthermore,
@@ -32,15 +32,15 @@ it can carry any additional metadata you might have no other place to record (li
 that you might need to be available to your conversion routine for a particular type of file.
 
 Finally, by default a toolbox dataset will be part of the study dataset, providing a collection of conversion routines
-and container images to run them in, which can be reference from within the study specification. This isn't mandatory,
+and container images to run them in, which can be referenced from within the study specification. This isn't mandatory,
 though, but rather a default for convenience. You can have your own toolbox or none at all.
 
 Trust automation
 ================
 
 Binding everything in that one dataset will allow us to use automatically generated references to particular versions of
-each file for provenance capturing. This is mostly relying in Datalad's run_ command, which runs arbitrary executables
-and produce a (machine readable) record of the exact version of inputs, the executed call, possibly the container it ran
+each file for provenance capture. This is mostly relying on DataLad's run_ command, which runs arbitrary executables
+and produces a (machine readable) record of the exact version of inputs, the executed call, possibly the container it ran
 in and its results. Thereby you can trace back the provenance of all derived data files throughout the entire history of
 the dataset (and its subdatasets) and reproduce the results from scratch.
 Another aspect of automation is the creation of the above mentioned study specification. Datalad-hirni comes with a
@@ -65,7 +65,7 @@ While automation can help a lot, in reality there's no "one size fits it all". R
 headers won't capture all cases, information no one included at the scanner can not be made up by an automation routine
 and there's a lot of potential for human error.
 This is why many adjustments can be made. First off, that is the reason for the specification to be added as a separate
-layer. If the automaticaly derived information is wrong, incomplete or insufficient, you can review that specification
+layer. If the automatically derived information is wrong, incomplete or insufficient, you can review that specification
 and edit or enhance it before even trying to convert anything. Since the specification is stored in JSON format, it can
 easily be edited programmatically as well as manually. To ease the manual review or edition Datalad-hirni comes with a
 browser based GUI for this purpose.
