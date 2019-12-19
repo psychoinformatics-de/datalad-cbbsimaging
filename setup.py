@@ -48,7 +48,7 @@ setup(
         'datalad[full]>=0.12.0rc4',
         'datalad-metalad>=0.2.0',
         'datalad-neuroimaging',
-        'datalad-container',
+        'datalad-container>=0.5.2',
         'datalad-webapp',
     ],
     extras_require={
