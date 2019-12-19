@@ -5,8 +5,8 @@ Demo: Conversion to BIDS
 
 
 This demo shows how to convert a hirni study dataset into a BIDS compliant dataset.
-The study dataset we use is the one created by the `study dataset demo <{filename}study_setup.rst#step-by-step-demo>`_.
-We will use a published version of that dataset available from github, but you can also build it yourself by following said demo and use that one.
+The study dataset we use is the one created by the :ref:`study dataset demo <chap_demos_study>`.
+We will use a published version of that dataset available from GitHub, but you can also build it yourself by following said demo and use that one.
 
 
 BIDS Dataset
@@ -36,7 +36,7 @@ Lets first convert the study level specification and second all the acquisitions
 
   % datalad hirni-spec2bids --anonymize sourcedata/studyspec.json sourcedata/*/studyspec.json
 
-The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can tha be excluded from publishing/sharing this dataset.
+The `anonymize` switch will cause the command to use the anonymized subject identifiers and encode all records of where exactly the data came from into hidden sidecar files, that can then be excluded from publishing/sharing this dataset.
 
 `datalad hirni-spec2bids` will run datalad procedures on the raw data as specified in the specification files (remember for example that we set a procedure "copy-converter" for our events.tsv file). Those procedures are customizable. The defaults we are using here, come from hirni's toolbox dataset. The default procedure to convert the DICOM files uses a containerized converter. It will NOT use, what you happen to have locally, but this defined and in the datasets referenced environment to do the conversion.
 This requires a download of that container (happens automatically) and enables the reproducibility of this routine, since the exact environment the conversion was ran in will be recorded in the dataset's history.
