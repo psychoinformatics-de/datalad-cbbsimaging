@@ -150,9 +150,10 @@ def test_demo_repro_analysis(bids_path, ana_path):
     analysis_ds.install(source=localizer_ds.path, path=op.join('inputs', 'rawdata'))
 
     analysis_ds.run_procedure('cfg_yoda')
-
+    # download-url expects the target dir to exist
+    (analysis_ds.pathobj / 'code').mkdir(exist_ok=True)
     analysis_ds.download_url(
-        path=op.join(analysis_ds.path, 'code'),  # TODO: File issue. relative path via python API bound method doesn't work
+        path=op.join(analysis_ds.path, 'code') + op.sep,  # TODO: File issue. relative path via python API bound method doesn't work
         urls=['https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/events2ev3.sh',
               'https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/ffa_design.fsf']
     )

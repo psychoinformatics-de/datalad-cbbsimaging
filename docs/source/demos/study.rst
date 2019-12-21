@@ -99,7 +99,7 @@ Editing or adding such a specification is again possible via the webUI. For the 
 
 What we pass here into the `properties` option is a JSON string. This is the underlying structure of what you can see in the webUI. The necessary quoting/escaping at the command line is admittedly not always easy for manual editing.
 Note, that instead of such a string you can also pass a path to JSON file. (and more generally: All of Datalad and the datalad-hirni extension is accessible via a Python API as well)
-For a more extensive description of the specification (and therefore those `properties`) see the :ref:`specification page <_chap_specification>`.
+For a more extensive description of the specification (and therefore those `properties`) see the :ref:`specification page <chap_specification>`.
 
 If you ran all the commands in this demo the exact same way as posted, your dataset should now look exactly like this: https://github.com/psychoinformatics-de/hirni-demo
 For comparison you can examine it on GitHub or install it locally to have a closer look via::
