@@ -78,7 +78,11 @@ the conversion command. That way the default defacing - which also can be replac
 implemented, for example.
 
 
+For a more detailed explanation of how it works and how to approach customization, you might be interested in watching
+this talk_.
+
+
 .. _dataset: https://datalad.readthedocs.io/en/latest/glossary.html
 .. _run: https://datalad.readthedocs.io/en/latest/generated/man/datalad-run.html
 .. _YODA: https://doi.org/10.7490/f1000research.1116363.1
-
+.. _talk: https://vimeo.com/380036896/afaf850c38
