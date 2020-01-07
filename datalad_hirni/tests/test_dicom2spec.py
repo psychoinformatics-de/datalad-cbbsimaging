@@ -268,3 +268,9 @@ def test_dicom2spec(path):
     assert_result_count(res, 1, path=op.join(ds.path, 'spec_structural.json'))
     assert_result_count(res, 1, path=op.join(ds.path, '.gitattributes'))
     ok_clean_git(ds.path)
+
+    # multiple execution shouldn't change .gitattributes again:
+    from os import stat
+    mtime = stat(op.join(ds.path, '.gitattributes')).st_mtime
+    res = ds.hirni_dicom2spec(path='acq100', spec='spec_structural.json')
+    assert_equal(stat(op.join(ds.path, '.gitattributes')).st_mtime, mtime)
