@@ -24,7 +24,8 @@ from datalad.tests.utils import (
     ok_file_under_git,
     assert_repo_status,
     assert_true,
-    skip_if_on_windows
+    skip_if_on_windows,
+    SkipTest
 )
 
 
@@ -168,6 +169,8 @@ def test_demo_repro_analysis(bids_path, ana_path):
                     cmd='bash code/events2ev3.sh sub-001 {inputs}',
                     message="Build FSL EV3 design files"
                     )
+
+    raise SkipTest("Solve datalad-containers #115")
 
     analysis_ds.containers_add('fsl', url="shub://ReproNim/ohbm2018-training:fsln")
     #   % datalad containers-list

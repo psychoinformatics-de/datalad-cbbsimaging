@@ -464,10 +464,15 @@ class Dicom2Spec(Interface):
         # spec_series_list = sorted(spec_series_list, key=lambda x: sort_spec(x))
         json_py.dump2stream(spec_series_list, spec)
 
-        # make sure spec is in git:
-        dataset.repo.set_gitattributes([(spec,
-                                         {'annex.largefiles': 'nothing'})],
-                                       '.gitattributes')
+        # make sure spec is tracked in git:
+        spec_attrs = dataset.repo.get_gitattributes(spec)
+        spec_relpath = op.relpath(spec, dataset.path)
+        if spec_relpath not in spec_attrs.keys() or \
+                'annex.largefiles' not in spec_attrs[spec_relpath].keys() or \
+                spec_attrs[spec_relpath]['annex.largefiles'] != 'nothing':
+            dataset.repo.set_gitattributes([(spec,
+                                             {'annex.largefiles': 'nothing'})],
+                                           '.gitattributes')
 
         for r in Save.__call__(dataset=dataset,
                                path=[spec, '.gitattributes'],
