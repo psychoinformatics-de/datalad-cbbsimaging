@@ -39,6 +39,8 @@ a dedicated [virtualenv](https://virtualenv.pypa.io):
 
 The documentation of this project is found here:
 http://docs.datalad.org/projects/hirni
+The documentation is built from this very repository's files under ``docs/source`` and thus you can contribute to the
+docs by opening a pull request just like you'd contribute to the code itself.
 
 All bugs, concerns and enhancement requests for this software can be submitted here:
 https://github.com/psychoinformatics-de/datalad-hirni/issues
