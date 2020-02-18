@@ -50,6 +50,7 @@ setup(
         'datalad-neuroimaging',
         'datalad-container>=0.5.2',
         'datalad-webapp',
+        'datalad-metalad',
     ],
     extras_require={
         'devel-docs': [
@@ -72,6 +73,9 @@ setup(
         ],
         'datalad.tests': [
             'hirni=datalad_hirni',
+        ],
+        'datalad.metadata.extractors': [
+            'metalad_fslfeat=datalad_hirni.extractors.fslfeat:FSLFEATExtractor',
         ],
     },
     include_package_data=True,
