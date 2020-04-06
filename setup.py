@@ -45,11 +45,11 @@ setup(
     zip_safe=False,
     # datalad command suite specs from here
     install_requires=[
-        'datalad[full]>=0.12.0rc4',
+        'datalad[full]>=0.12.5',
         'datalad-metalad>=0.2.0',
         'datalad-neuroimaging',
         'datalad-container>=0.5.2',
-        'datalad-webapp',
+        'datalad-webapp>=0.3',
     ],
     extras_require={
         'devel-docs': [

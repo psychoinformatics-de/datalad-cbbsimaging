@@ -2,3 +2,4 @@
 -e git+https://github.com/datalad/datalad-neuroimaging.git#egg=datalad_neuroimaging
 -e git+https://github.com/datalad/datalad-container.git#egg=datalad_container
 -e git+https://github.com/datalad/datalad-metalad.git#egg=datalad_metalad
+-e git+https://github.com/datalad/datalad-webapp.git#egg=datalad_webapp
