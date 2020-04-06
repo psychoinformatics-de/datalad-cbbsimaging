@@ -16,6 +16,11 @@ We would recommend to consult log of the `Git
 repository <http://github.com/psychoinformatics-de/datalad-hirni>`__ for
 more details.
 
+0.0.6 (April 6, 2020)
+---------------------
+
+-  update dependencies so everything works with current datalad 0.12.5
+
 0.0.5 (January 8, 2020)
 -----------------------
 
