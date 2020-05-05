@@ -54,7 +54,7 @@ install:
   - git config --global user.name "Travis Almighty"
   - cd ..; pip install -q codecov; cd -
   # don't regularly test against master branches of datalad & extensions
-  #- pip install -r requirements-devel.txt
+  - pip install -r requirements-devel.txt
   # So we could test under sudo -E with PATH pointing to installed location
   - sudo sed -i -e 's/^Defaults.*secure_path.*$//' /etc/sudoers
 
