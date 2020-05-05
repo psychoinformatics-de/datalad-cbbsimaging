@@ -54,7 +54,7 @@ jobs:
         mkdir -p __testhome__
         cd __testhome__
 
-        python -m nose -s -v --with-cov --cover-package datalad datalad_hirni
+        python -m nose -s -v --with-cov --cover-package datalad datalad_hirni.tests.test_dicomconv datalad_hirni.tests.test_demos
       env:
         DATALAD_LOG_LEVEL: INFO
         DATALAD_LOG_TRACEBACK: collide
