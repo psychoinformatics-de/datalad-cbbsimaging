@@ -56,5 +56,5 @@ jobs:
 
         python -m nose -s -v --with-cov --cover-package datalad datalad_hirni
       env:
-        DATALAD_LOG_LEVEL: DEBUG
+        DATALAD_LOG_LEVEL: INFO
         DATALAD_LOG_TRACEBACK: collide

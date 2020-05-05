@@ -263,10 +263,12 @@ class Spec2Bids(Interface):
                         # apparently reload is necessary to consider config
                         # overrides via env:
                         dataset.config.reload()
-                        lgr.debug("Running procedure %s on dataset %s",
+
+                        lgr.warning("Running procedure %s on dataset %s",
                                   proc_name, str(dataset.pathobj))
-                        lgr.debug("Passed environment for run_procedure:\n%s",
+                        lgr.warning("Passed environment for run_procedure:\n%s",
                                   env_subs)
+
                         for r in dataset.run_procedure(
                                 spec=proc_name,
                                 return_type='generator'
