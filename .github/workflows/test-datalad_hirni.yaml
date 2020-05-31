@@ -46,6 +46,11 @@ jobs:
     - name: Install APT depends for the extension
       run: sudo eatmydata apt-get install dcm2niix singularity-container
 
+    - name: Install hirni-toolbox
+      run: |
+        datalad clone https://github.com/psychoinformatics-de/hirni-toolbox.git /tmp/__toolbox__
+        datalad get -d /tmp/__toolbox__
+
     - name: WTF!?
       run: |
         datalad wtf
@@ -58,3 +63,4 @@ jobs:
       env:
         DATALAD_LOG_LEVEL: WARNING
         DATALAD_LOG_TRACEBACK: collide
+        DATALAD_HIRNI_TOOLBOX_URL: /tmp/__toolbox__

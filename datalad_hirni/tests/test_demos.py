@@ -27,6 +27,7 @@ from datalad.tests.utils import (
     skip_if_on_windows,
     SkipTest
 )
+from datalad_hirni.tests.utils import install_demo_dataset
 
 
 @usecase
@@ -117,9 +118,7 @@ def test_demo_repro_analysis(bids_path, ana_path):
 
     localizer_ds = Dataset(bids_path).create()
     localizer_ds.run_procedure('cfg_bids')
-    localizer_ds.install(source="https://github.com/psychoinformatics-de/hirni-demo",
-                         path="sourcedata",
-                         recursive=True)
+    install_demo_dataset(localizer_ds, "sourcedata", recursive=True)
 
     assert_repo_status(localizer_ds.repo)
     subs = localizer_ds.subdatasets(recursive=True)
