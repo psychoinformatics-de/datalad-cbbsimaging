@@ -1,22 +1,32 @@
 from os.path import join as opj
-
+from unittest.mock import patch
 import datalad_hirni
 from datalad.api import Dataset
 
-from datalad.tests.utils import ok_exists, ok_file_under_git
-from datalad.tests.utils import with_tempfile
+from datalad.tests.utils import (
+    ok_exists,
+    ok_file_under_git,
+    with_tempfile
+)
+from datalad_hirni.tests.utils import cached_url
 
 from datalad_neuroimaging.tests.utils import create_dicom_tarball
 
 
 @with_tempfile(mkdir=True)
 @with_tempfile
-def test_import_tarball(src, ds_path):
+@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_import_tarball(src, ds_path, toolbox_url):
 
     filename = opj(src, "structural.tar.gz")
     create_dicom_tarball(flavor="structural", path=filename)
 
-    ds = Dataset(ds_path).create(cfg_proc=['hirni'])
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = Dataset(ds_path).create(cfg_proc=['hirni'])
 
     # adapt import layout rules for example ds, since hirni default
     # doesn't apply:

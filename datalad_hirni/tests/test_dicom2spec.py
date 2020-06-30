@@ -11,6 +11,7 @@
 
 import os.path as op
 
+from unittest.mock import patch
 from datalad.api import (
     Dataset,
     install
@@ -24,6 +25,7 @@ from datalad.tests.utils import (
     assert_equal
 )
 
+from datalad_hirni.tests.utils import cached_url
 from datalad.utils import get_tempfile_kwargs
 
 from datalad_neuroimaging.tests.utils import (
@@ -79,10 +81,16 @@ test_raw_ds = RawDataset()
 
 
 @with_tempfile
-def test_default_rules(path):
+@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_default_rules(path, toolbox_url):
 
     # ## SETUP a raw ds
-    ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
     # ## END SETUP
 
     # create specs for dicomseries w/ default rules:
@@ -152,10 +160,16 @@ def test_default_rules(path):
 
 
 @with_tempfile
-def test_custom_rules(path):
+@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_custom_rules(path, toolbox_url):
 
     # ## SETUP a raw ds
-    ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
     # ## END SETUP
 
     # 1. simply default rules
@@ -245,12 +259,19 @@ def test_custom_rules(path):
 
 
 @with_tempfile
-def test_dicom2spec(path):
+@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_dicom2spec(path, toolbox_url):
 
     # ###  SETUP ###
     dicoms = get_dicom_dataset('structural')
 
-    ds = Dataset.create(path, cfg_proc=['hirni'])
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = Dataset.create(path, cfg_proc=['hirni'])
+
     ds.install(source=dicoms, path='acq100')
     # Note: Recursive, since aggregation wasn't performed in the installed dastasets
     # TODO: Use get_raw_sd from above instead of this setup
