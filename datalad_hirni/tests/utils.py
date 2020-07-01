@@ -8,7 +8,8 @@ from datalad.utils import (
     ensure_list,
     optional_args,
     Path,
-    rmtree
+    rmtree,
+    wraps
 )
 from datalad.support.annexrepo import AnnexRepo
 from datalad.tests.utils import with_tempfile
@@ -184,7 +185,7 @@ def cached_dataset(f, url=None, version=None, paths=None):
         enabled, it's actually a clone of a clone, 'origin' being the clone in
         cache rather than the original repo at `url`.
     """
-    @better_wraps(f)
+    @wraps(f)
     @with_tempfile
     def newfunc(*arg, **kw):
 
@@ -258,7 +259,7 @@ def cached_url(f, url=None, keys=None):
     #       depending on how we generally decide to address versioned
     #       URLs for clone etc.
 
-    @better_wraps(f)
+    @wraps(f)
     def newfunc(*arg, **kw):
         if DATALAD_TESTS_CACHE:
             ds = get_cached_dataset(url, version=None)

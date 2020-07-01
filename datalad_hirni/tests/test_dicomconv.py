@@ -42,16 +42,20 @@ def test_dicom_metadata_aggregation(path):
 
 
 @with_tempfile
-@cached_dataset(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
-                paths=[opj("converters", "heudiconv", "heudiconv.simg"),
-                       opj("postprocessing", "defacing",
-                           "mridefacer", "mridefacer.simg"),
-                       opj("postprocessing", "fsl", "fsl.simg")]
-                )
-def _single_session_dicom2bids(label, path, toolbox):
+@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+# @cached_dataset(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+#                 paths=[opj("converters", "heudiconv", "heudiconv.simg"),
+#                        opj("postprocessing", "defacing",
+#                            "mridefacer", "mridefacer.simg"),
+#                        opj("postprocessing", "fsl", "fsl.simg")]
+#                 )
+def _single_session_dicom2bids(label, path, toolbox_url):
 
     with patch.dict('os.environ',
-                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox.pathobj.as_uri()}):
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
         ds = Dataset.create(path, cfg_proc=['hirni'])
 
     subject = "02"
