@@ -26,12 +26,12 @@ from datalad.tests.utils import (
     with_tempfile,
 )
 from datalad_hirni.tests.utils import install_demo_dataset, cached_url
-
+from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 
 @usecase
 @with_tempfile
-@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
-            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 def test_demo_raw_ds(path, toolbox_url):
@@ -117,8 +117,8 @@ def test_demo_raw_ds(path, toolbox_url):
 @usecase
 @with_tempfile
 @with_tempfile
-@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
-            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 def test_demo_repro_analysis(bids_path, ana_path, toolbox_url):
@@ -205,14 +205,14 @@ def test_demo_repro_analysis(bids_path, ana_path, toolbox_url):
 
     assert_repo_status(analysis_ds.repo)
 
-
     # TODO: Currently failing. Figure it out:
     # analysis_ds.containers_run(
     #     container_name='fsl',
     #     message='sub-001 1st-level GLM',
     #     inputs=[op.join('sub-001', '1stlvl_design.fsf'),
     #             op.join('sub-001', 'onsets'),
-    #             op.join('inputs', 'rawdata', 'sub-001', 'func', 'sub-001_task-oneback_run-01_bold.nii.gz')
+    #             op.join('inputs', 'rawdata', 'sub-001', 'func',
+    #             'sub-001_task-oneback_run-01_bold.nii.gz')
     #             ],
     #     outputs=[op.join('sub-001', '1stlvl_glm.feat')],
     #     cmd="fsl5.0-feat '{inputs[0]}'"

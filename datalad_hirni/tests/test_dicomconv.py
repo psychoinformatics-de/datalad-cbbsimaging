@@ -23,6 +23,7 @@ from datalad.tests.utils import (
 
 import datalad_hirni
 from datalad_hirni.tests.utils import cached_url, cached_dataset
+from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 from datalad_neuroimaging.tests.utils import get_dicom_dataset
 from datalad_neuroimaging.tests.utils import get_bids_dataset
 
@@ -42,8 +43,8 @@ def test_dicom_metadata_aggregation(path):
 
 
 @with_tempfile
-@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
-            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 # @cached_dataset(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
@@ -86,8 +87,8 @@ def test_validate_bids_fixture():
 
 @with_tempfile
 @with_tempfile
-@cached_url(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
-            keys=["MD5E-s164098079--f562d9d23df6359ee3426ca861a6e803.simg",
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 def test_spec2bids(study_path, bids_path, toolbox_url):
