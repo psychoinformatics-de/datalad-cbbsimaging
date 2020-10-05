@@ -37,6 +37,7 @@ lgr = logging.getLogger('datalad.hirni.import_dicoms')
 # TODO: Commit-Message to contain hint on the imported tarball
 def _import_dicom_tarball(target_ds, tarball, filename):
 
+    current_user_branch = target_ds.repo.get_active_branch()
     # # TODO: doesn't work for updates yet:
     # # - branches are expected to not exist yet
     target_ds.repo.checkout('incoming', options=['-b'])
@@ -75,7 +76,7 @@ def _import_dicom_tarball(target_ds, tarball, filename):
                         allow_dirty=True)
 
     target_ds.repo.commit(msg="Extracted %s" % tarball)
-    target_ds.repo.checkout('master')
+    target_ds.repo.checkout(current_user_branch)
     target_ds.repo.merge('incoming-processed', options=["--allow-unrelated"])
 
 
