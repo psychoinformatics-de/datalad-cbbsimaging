@@ -31,7 +31,7 @@ from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 @usecase
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
-            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 def test_demo_raw_ds(path, toolbox_url):
@@ -118,7 +118,7 @@ def test_demo_raw_ds(path, toolbox_url):
 @with_tempfile
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
-            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 def test_demo_repro_analysis(bids_path, ana_path, toolbox_url):

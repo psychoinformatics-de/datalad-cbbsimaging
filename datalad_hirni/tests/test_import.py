@@ -16,7 +16,7 @@ from datalad_neuroimaging.tests.utils import create_dicom_tarball
 @with_tempfile(mkdir=True)
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
-            keys=["MD5E-s413728768--cba83926840e359ff64db5d2140cb78b.simg",
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
                   "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
                   "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
 def test_import_tarball(src, ds_path, toolbox_url):
