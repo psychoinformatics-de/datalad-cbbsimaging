@@ -161,7 +161,8 @@ def test_spec2bids(study_path, bids_path, toolbox_url):
     # install the study dataset as "sourcedata":
     bids_ds.install(source=study_ds.path, path="sourcedata")
     # get the toolbox, since procedures can't be discovered otherwise
-    bids_ds.get(op.join('sourcedata', 'code', 'hirni-toolbox'))
+    bids_ds.get(op.join('sourcedata', 'code', 'hirni-toolbox', 'converters',
+                        'heudiconv', 'heudiconv.simg'))
 
     # make sure, we have the target directory "sub-02" for the copy converter,
     # even if heudiconv didn't run before (order of execution of the converters

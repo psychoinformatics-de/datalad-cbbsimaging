@@ -227,19 +227,31 @@ def test_custom_rules(path, toolbox_url):
                           'rules',
                           'test_rules2.py'),
                   )
-    rule_files = ds.config.get("datalad.hirni.dicom2spec.rules")
+    try:
+        # Protect against older datalad version.
+        # ATM this can't be done by checking version number, since this change
+        # currently is in datalad's master branch but not in maint. maint,
+        # however, has the same __version__ as master
+        rule_files = ds.config.get("datalad.hirni.dicom2spec.rules",
+                                   get_all=True)
+    except TypeError as e:
+        if "unexpected keyword argument 'get_all'" in str(e):
+            # older datalad version should return multiple values out of the box
+            rule_files = ds.config.get("datalad.hirni.dicom2spec.rules")
+        else:
+            raise 
+
     # ensure assumption about order (dicom2spec relies on it):
 
-    assert_equal(rule_files,
-                 (op.join(op.dirname(datalad_hirni.__file__),
-                          'resources',
-                          'rules',
-                          'test_rules.py'),
-                  op.join(op.dirname(datalad_hirni.__file__),
-                          'resources',
-                          'rules',
-                          'test_rules2.py')
-                  )
+    assert_equal(rule_files[0], op.join(op.dirname(datalad_hirni.__file__),
+                                        'resources',
+                                        'rules',
+                                        'test_rules.py')
+                 )
+    assert_equal(rule_files[1], op.join(op.dirname(datalad_hirni.__file__),
+                                        'resources',
+                                        'rules',
+                                        'test_rules2.py')
                  )
 
     os.unlink(op.join(path, 'struct_acq', 'studyspec.json'))
