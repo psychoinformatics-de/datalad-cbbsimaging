@@ -10,6 +10,11 @@ would recommend to consult log of the [Git
 repository](http://github.com/psychoinformatics-de/datalad-hirni) for more
 details.
 
+## 0.0.7 (October 7, 2020)
+- adapt for datalad 0.13 series and raise dependency to 0.13.4
+- raised dependency on datalad-neuroimaging
+- several fixes for hirni's tests and CI setup
+
 ## 0.0.6 (April 6, 2020)
 - update dependencies so everything works with current datalad 0.12.5
 
