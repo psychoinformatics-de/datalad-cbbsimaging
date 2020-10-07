@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 
 import os.path as op
-from setuptools import setup
-from setuptools import find_packages
+from setuptools import (
+    setup,
+    find_packages,
+    findall
+)
 
-from setup_support import BuildManPage
-from setup_support import get_version
+from setup_support import (
+    BuildManPage,
+    get_version
+)
 
 
 # extension version
@@ -33,19 +38,30 @@ except (ImportError, OSError) as exc:
     long_description = open(README).read()
 
 
+def findsome(subdir, extensions):
+    """Find files under subdir having specified extensions
+    Leading directory (datalad) gets stripped
+    """
+    return [
+        f.split(op.sep, 1)[1] for f in findall(op.join('datalad_hirni', subdir))
+        if op.splitext(f)[-1].lstrip('.') in extensions
+    ]
+
+
 setup(
     # basic project properties can be set arbitrarily
     name="datalad_hirni",
     author="DataLad developers",
     author_email="team@datalad.org",
     version=version,
-    description="DataLad extension for CBBS imaging platform workflows",
+    description="DataLad extension for raw data capturing and "
+                "conversion workflows",
     long_description=long_description,
     packages=[pkg for pkg in find_packages('.') if pkg.startswith('datalad')],
     zip_safe=False,
     # datalad command suite specs from here
     install_requires=[
-        'datalad[full]>=0.13.0',
+        'datalad[full]>=0.13.4',
         'datalad-metalad>=0.2.0',
         'datalad-neuroimaging>=0.3.1',
         'datalad-container>=0.5.2',
@@ -60,6 +76,11 @@ setup(
             'sphinx-rtd-theme',
         ]},
     cmdclass=cmdclass,
+    package_data={
+        'datalad_hirni': findsome('resources',
+                                  {'sh', 'html', 'js', 'css', 'png', 'svg',
+                                   'txt', 'py'})
+    },
     entry_points={
         'datalad.extensions': [
             # the label in front of '=' is the command suite label
