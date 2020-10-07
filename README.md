@@ -1,9 +1,4 @@
-     ____          _           _                 _
-    |  _ \   __ _ | |_   __ _ | |      __ _   __| |
-    | | | | / _` || __| / _` || |     / _` | / _` |
-    | |_| || (_| || |_ | (_| || |___ | (_| || (_| |
-    |____/  \__,_| \__| \__,_||_____| \__,_| \__,_|
-                                              Hirni
+# Datalad-Hirni
 
 [![Travis tests status](https://secure.travis-ci.org/psychoinformatics-de/datalad-hirni.png?branch=master)](https://travis-ci.org/psychoinformatics-de/datalad-hirni) [![codecov.io](https://codecov.io/github/psychoinformatics-de/datalad-hirni/coverage.svg?branch=master)](https://codecov.io/github/psychoinformatics-de/datalad-hirni?branch=master) [![Documentation](https://readthedocs.org/projects/datalad-hirni/badge/?version=latest)](http://datalad-hirni.rtfd.org) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![GitHub release](https://img.shields.io/github/release/psychoinformatics-de/datalad-hirni.svg)](https://GitHub.com/psychoinformatics-de/datalad-hirni/releases/) [![PyPI version fury.io](https://badge.fury.io/py/datalad-hirni.svg)](https://pypi.python.org/pypi/datalad-hirni/) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/psychoinformatics-de/datalad-hirni.svg)](http://isitmaintained.com/project/psychoinformatics-de/datalad-hirni "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/psychoinformatics-de/datalad-hirni.svg)](http://isitmaintained.com/project/psychoinformatics-de/datalad-hirni "Percentage of issues still open")
 

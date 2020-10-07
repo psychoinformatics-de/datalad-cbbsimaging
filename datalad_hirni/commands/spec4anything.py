@@ -91,15 +91,15 @@ class Spec4Anything(Interface):
         dataset=Parameter(
             args=("-d", "--dataset"),
             metavar='PATH',
-            doc="""specify the dataset. If no dataset is given, an attempt is 
-            made to identify the dataset based on the current working directory 
+            doc="""specify the dataset. If no dataset is given, an attempt is
+            made to identify the dataset based on the current working directory
             and/or the `path` given""",
             constraints=EnsureDataset() | EnsureNone()),
         path=Parameter(
             args=("path",),
             metavar='PATH',
             doc="""path(s) of the data to create specification for. Each path
-            given will be treated as a data entity getting its own specification 
+            given will be treated as a data entity getting its own specification
             snippet""",
             nargs="*",
             constraints=EnsureStr()),

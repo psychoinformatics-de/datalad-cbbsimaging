@@ -272,8 +272,8 @@ class Dicom2Spec(Interface):
     _params_ = dict(
             dataset=Parameter(
                     args=("-d", "--dataset"),
-                    doc="""specify a dataset containing the DICOM metadata to be 
-                    used. If no dataset is given, an attempt is made to identify 
+                    doc="""specify a dataset containing the DICOM metadata to be
+                    used. If no dataset is given, an attempt is made to identify
                     the dataset based on the current working directory""",
                     constraints=EnsureDataset() | EnsureNone()),
             path=Parameter(
@@ -290,7 +290,7 @@ class Dicom2Spec(Interface):
             subject=Parameter(
                     args=("--subject",),
                     metavar="SUBJECT",
-                    doc="""subject identifier. If not specified, an attempt will be made 
+                    doc="""subject identifier. If not specified, an attempt will be made
                         to derive SUBJECT from DICOM headers""",
                     constraints=EnsureStr() | EnsureNone()),
             anon_subject=Parameter(
@@ -301,7 +301,7 @@ class Dicom2Spec(Interface):
             acquisition=Parameter(
                     args=("--acquisition",),
                     metavar="ACQUISITION",
-                    doc="""acquisition identifier. If not specified, an attempt 
+                    doc="""acquisition identifier. If not specified, an attempt
                     will be made to derive an identifier from DICOM headers""",
                     constraints=EnsureStr() | EnsureNone()),
             properties=Parameter(

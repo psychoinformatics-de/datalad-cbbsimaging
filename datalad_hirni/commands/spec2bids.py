@@ -51,8 +51,8 @@ class Spec2Bids(Interface):
             args=("specfile",),
             metavar="SPEC_FILE",
             doc="""path(s) to the specification file(s) to use for conversion.
-             If a directory at the first level beneath the dataset's root is 
-             given instead of a file, it's assumed to be an acqusition directory 
+             If a directory at the first level beneath the dataset's root is
+             given instead of a file, it's assumed to be an acqusition directory
              that contains a specification file.
              By default this is a file named 'studyspec.json' in the
              acquisition directory. This default name can be configured via the
@@ -64,8 +64,8 @@ class Spec2Bids(Interface):
             args=("--anonymize",),
             action="store_true",
             doc="""whether or not to anonymize for conversion. By now this means
-            to use 'anon_subject' instead of 'subject' from spec and to use 
-            datalad-run with a sidecar file, to not leak potentially identifying 
+            to use 'anon_subject' instead of 'subject' from spec and to use
+            datalad-run with a sidecar file, to not leak potentially identifying
             information into its record.""",),
         only_type=Parameter(
             args=("--only-type",),

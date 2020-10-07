@@ -4,7 +4,7 @@
 PYTHON ?= python
 NOSETESTS ?= nosetests
 
-MODULE ?= datalad
+MODULE ?= datalad_hirni
 
 all: clean test
 

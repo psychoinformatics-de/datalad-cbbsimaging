@@ -323,7 +323,7 @@ def infotodict(seqinfo):  # pragma: no cover
                             get_specval(series_spec, spec_key))
 
             filename += "_GRE"
-            
+
         if data_type == 'fmap':
             # Case 1: Phase difference image and at least one magnitude image
             # sub-<participant_label>/[ses-<session_label>/]

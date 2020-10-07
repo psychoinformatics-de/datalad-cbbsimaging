@@ -185,21 +185,21 @@ class ImportDicoms(Interface):
         subject=Parameter(
             args=("--subject",),
             metavar="SUBJECT",
-            doc="""subject identifier. If not specified, an attempt will be made 
+            doc="""subject identifier. If not specified, an attempt will be made
             to derive SUBJECT from DICOM headers. See hirni-dicom2spec for details.""",
             constraints=EnsureStr() | EnsureNone()),
         anon_subject=Parameter(
             args=("--anon-subject",),
             metavar="ANON_SUBJECT",
-            doc="""an anonymized subject identifier. This is needed for 
-            anonymized conversion via spec2bids --anonymize and will be stored 
-            in the specification snippet for the imported DICOMs. Hence it can 
+            doc="""an anonymized subject identifier. This is needed for
+            anonymized conversion via spec2bids --anonymize and will be stored
+            in the specification snippet for the imported DICOMs. Hence it can
             be added later and isn't mandatory for the import.""",
             constraints=EnsureStr() | EnsureNone()),
         properties=Parameter(
             args=("--properties",),
             metavar="PATH or JSON string",
-            doc="""a JSON string or a path to a JSON file, to provide 
+            doc="""a JSON string or a path to a JSON file, to provide
             overrides/additions to the to be created specification snippets for this acquisition.
             """,
             constraints=EnsureStr() | EnsureNone()),

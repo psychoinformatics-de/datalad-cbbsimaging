@@ -239,7 +239,7 @@ def test_custom_rules(path, toolbox_url):
             # older datalad version should return multiple values out of the box
             rule_files = ds.config.get("datalad.hirni.dicom2spec.rules")
         else:
-            raise 
+            raise
 
     # ensure assumption about order (dicom2spec relies on it):
 
