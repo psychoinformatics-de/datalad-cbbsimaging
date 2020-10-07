@@ -11,13 +11,19 @@
 
 import os.path as op
 from os import makedirs
+from unittest.mock import patch
 
 from datalad.api import Dataset
-from datalad.tests.utils import assert_result_count
-from datalad.tests.utils import with_tempfile
-from datalad.tests.utils import eq_
+from datalad.utils import opj
+from datalad.tests.utils import (
+    assert_result_count,
+    eq_,
+    with_tempfile
+)
 
 import datalad_hirni
+from datalad_hirni.tests.utils import cached_url, cached_dataset
+from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 from datalad_neuroimaging.tests.utils import get_dicom_dataset
 from datalad_neuroimaging.tests.utils import get_bids_dataset
 
@@ -37,9 +43,21 @@ def test_dicom_metadata_aggregation(path):
 
 
 @with_tempfile
-def _single_session_dicom2bids(label, path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+# @cached_dataset(url="https://github.com/psychoinformatics-de/hirni-toolbox.git",
+#                 paths=[opj("converters", "heudiconv", "heudiconv.simg"),
+#                        opj("postprocessing", "defacing",
+#                            "mridefacer", "mridefacer.simg"),
+#                        opj("postprocessing", "fsl", "fsl.simg")]
+#                 )
+def _single_session_dicom2bids(label, path, toolbox_url):
 
-    ds = Dataset.create(path, cfg_proc=['hirni'])
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = Dataset.create(path, cfg_proc=['hirni'])
 
     subject = "02"
     acquisition = "{sub}_{label}".format(sub=subject, label=label)
@@ -69,9 +87,15 @@ def test_validate_bids_fixture():
 
 @with_tempfile
 @with_tempfile
-def test_spec2bids(study_path, bids_path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_spec2bids(study_path, bids_path, toolbox_url):
 
-    study_ds = Dataset(study_path).create(cfg_proc=['hirni'])
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        study_ds = Dataset(study_path).create(cfg_proc=['hirni'])
 
     subject = "02"
     acquisition = "{sub}_functional".format(sub=subject)
@@ -130,12 +154,15 @@ def test_spec2bids(study_path, bids_path):
     # ##############
 
     # create the BIDS dataset:
-    bids_ds = Dataset.create(bids_path, cfg_proc=['hirni'])
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        bids_ds = Dataset.create(bids_path, cfg_proc=['hirni'])
 
     # install the study dataset as "sourcedata":
     bids_ds.install(source=study_ds.path, path="sourcedata")
     # get the toolbox, since procedures can't be discovered otherwise
-    bids_ds.get(op.join('sourcedata', 'code', 'hirni-toolbox'))
+    bids_ds.get(op.join('sourcedata', 'code', 'hirni-toolbox', 'converters',
+                        'heudiconv', 'heudiconv.simg'))
 
     # make sure, we have the target directory "sub-02" for the copy converter,
     # even if heudiconv didn't run before (order of execution of the converters

@@ -11,31 +11,37 @@
 
 
 import os.path as op
+from unittest.mock import patch
 from datalad.api import (
     Dataset,
 )
 from datalad.tests.utils import (
     assert_result_count,
-    assert_in,
-    ok_clean_git,
-    with_tempfile,
-    assert_equal,
-    usecase,
-    ok_file_under_git,
     assert_repo_status,
     assert_true,
+    ok_file_under_git,
     skip_if_on_windows,
-    SkipTest
+    SkipTest,
+    usecase,
+    with_tempfile,
 )
-
+from datalad_hirni.tests.utils import install_demo_dataset, cached_url
+from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 
 @usecase
 @with_tempfile
-def test_demo_raw_ds(path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_demo_raw_ds(path, toolbox_url):
 
     ds = Dataset(path)
-    ds.create()  # TODO: May be move to ds.create(cfg_proc='hirni') in demo
-    ds.run_procedure('cfg_hirni')
+
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds.create()  # TODO: May be move to ds.create(cfg_proc='hirni') in demo
+        ds.run_procedure('cfg_hirni')
 
     # clean repo with an annex:
     assert_repo_status(ds.repo, annex=True)
@@ -111,15 +117,25 @@ def test_demo_raw_ds(path):
 @usecase
 @with_tempfile
 @with_tempfile
-def test_demo_repro_analysis(bids_path, ana_path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_demo_repro_analysis(bids_path, ana_path, toolbox_url):
 
     import glob
 
     localizer_ds = Dataset(bids_path).create()
     localizer_ds.run_procedure('cfg_bids')
-    localizer_ds.install(source="https://github.com/psychoinformatics-de/hirni-demo",
-                         path="sourcedata",
-                         recursive=True)
+
+    # TODO: decorator
+    # TODO: with config patch for toolbox ? -> overwrite?
+    # localizer_ds.install(source="https://github.com/psychoinformatics-de/hirni-demo",
+    #                      path="sourcedata",
+    #                      recursive=True)
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        install_demo_dataset(localizer_ds, "sourcedata", recursive=True)
 
     assert_repo_status(localizer_ds.repo)
     subs = localizer_ds.subdatasets(recursive=True)
@@ -189,14 +205,14 @@ def test_demo_repro_analysis(bids_path, ana_path):
 
     assert_repo_status(analysis_ds.repo)
 
-
     # TODO: Currently failing. Figure it out:
     # analysis_ds.containers_run(
     #     container_name='fsl',
     #     message='sub-001 1st-level GLM',
     #     inputs=[op.join('sub-001', '1stlvl_design.fsf'),
     #             op.join('sub-001', 'onsets'),
-    #             op.join('inputs', 'rawdata', 'sub-001', 'func', 'sub-001_task-oneback_run-01_bold.nii.gz')
+    #             op.join('inputs', 'rawdata', 'sub-001', 'func',
+    #             'sub-001_task-oneback_run-01_bold.nii.gz')
     #             ],
     #     outputs=[op.join('sub-001', '1stlvl_glm.feat')],
     #     cmd="fsl5.0-feat '{inputs[0]}'"

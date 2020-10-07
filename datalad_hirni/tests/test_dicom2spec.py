@@ -11,6 +11,7 @@
 
 import os.path as op
 
+from unittest.mock import patch
 from datalad.api import (
     Dataset,
     install
@@ -24,6 +25,8 @@ from datalad.tests.utils import (
     assert_equal
 )
 
+from datalad_hirni.tests.utils import cached_url
+from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 from datalad.utils import get_tempfile_kwargs
 
 from datalad_neuroimaging.tests.utils import (
@@ -79,10 +82,16 @@ test_raw_ds = RawDataset()
 
 
 @with_tempfile
-def test_default_rules(path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_default_rules(path, toolbox_url):
 
     # ## SETUP a raw ds
-    ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
     # ## END SETUP
 
     # create specs for dicomseries w/ default rules:
@@ -152,10 +161,16 @@ def test_default_rules(path):
 
 
 @with_tempfile
-def test_custom_rules(path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_custom_rules(path, toolbox_url):
 
     # ## SETUP a raw ds
-    ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = install(source=test_raw_ds.get_raw_dataset(), path=path)
     # ## END SETUP
 
     # 1. simply default rules
@@ -212,19 +227,31 @@ def test_custom_rules(path):
                           'rules',
                           'test_rules2.py'),
                   )
-    rule_files = ds.config.get("datalad.hirni.dicom2spec.rules")
+    try:
+        # Protect against older datalad version.
+        # ATM this can't be done by checking version number, since this change
+        # currently is in datalad's master branch but not in maint. maint,
+        # however, has the same __version__ as master
+        rule_files = ds.config.get("datalad.hirni.dicom2spec.rules",
+                                   get_all=True)
+    except TypeError as e:
+        if "unexpected keyword argument 'get_all'" in str(e):
+            # older datalad version should return multiple values out of the box
+            rule_files = ds.config.get("datalad.hirni.dicom2spec.rules")
+        else:
+            raise 
+
     # ensure assumption about order (dicom2spec relies on it):
 
-    assert_equal(rule_files,
-                 (op.join(op.dirname(datalad_hirni.__file__),
-                          'resources',
-                          'rules',
-                          'test_rules.py'),
-                  op.join(op.dirname(datalad_hirni.__file__),
-                          'resources',
-                          'rules',
-                          'test_rules2.py')
-                  )
+    assert_equal(rule_files[0], op.join(op.dirname(datalad_hirni.__file__),
+                                        'resources',
+                                        'rules',
+                                        'test_rules.py')
+                 )
+    assert_equal(rule_files[1], op.join(op.dirname(datalad_hirni.__file__),
+                                        'resources',
+                                        'rules',
+                                        'test_rules2.py')
                  )
 
     os.unlink(op.join(path, 'struct_acq', 'studyspec.json'))
@@ -245,12 +272,19 @@ def test_custom_rules(path):
 
 
 @with_tempfile
-def test_dicom2spec(path):
+@cached_url(url=HIRNI_TOOLBOX_URL,
+            keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
+                  "MD5E-s304050207--43552f641fd9b518a8c4179a4d816e8e.simg",
+                  "MD5E-s273367071--4984c01e667b38d206a9a36acf5721be.simg"])
+def test_dicom2spec(path, toolbox_url):
 
     # ###  SETUP ###
     dicoms = get_dicom_dataset('structural')
 
-    ds = Dataset.create(path, cfg_proc=['hirni'])
+    with patch.dict('os.environ',
+                    {'DATALAD_HIRNI_TOOLBOX_URL': toolbox_url}):
+        ds = Dataset.create(path, cfg_proc=['hirni'])
+
     ds.install(source=dicoms, path='acq100')
     # Note: Recursive, since aggregation wasn't performed in the installed dastasets
     # TODO: Use get_raw_sd from above instead of this setup
