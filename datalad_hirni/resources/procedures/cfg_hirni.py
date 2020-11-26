@@ -58,7 +58,7 @@ bids_description = {
     "Authors": [],
     "Acknowledgements": "",
     "HowToAcknowledge": "",
-    "Funding": "",
+    "Funding": [],
     "ReferencesAndLinks": [],
     "DatasetDOI": "",
     "Ethics": "",
