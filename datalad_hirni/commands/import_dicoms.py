@@ -117,9 +117,9 @@ def _create_subds_from_tarball(tarball, targetdir):
 
 def _guess_acquisition_and_move(ds, target_ds):
 
-    ds.meta_aggregate()
-    res = ds.meta_dump(
-        reporton='datasets',
+    res = ds.meta_extract(
+        process_type='dataset',
+        sources=['dicom'],
         return_type='item-or-list',
         result_renderer='disabled')
     # there should be exactly one result and therefore a dict
