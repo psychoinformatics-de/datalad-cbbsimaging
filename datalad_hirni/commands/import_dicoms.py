@@ -64,7 +64,7 @@ def _import_dicom_tarball(target_ds, tarball, filename):
 
     target_ds.repo.merge('incoming', options=["-s", "ours", "--no-commit"],
                          expect_stderr=True)
-    target_ds.repo.call_git(['read-tree', '-m', '-u', 'incoming'])
+    target_ds.repo.call_git(["read-tree", "-m", "-u", "incoming"])
 
     from datalad.coreapi import add_archive_content
     # # TODO: Reconsider value of --existing
@@ -274,7 +274,7 @@ class ImportDicoms(Interface):
                        if f != ".datalad" and f != ".git"])
 
         # finally clean up git objects:
-        dicom_ds.repo.cmd_call_wrapper.run(['git', 'gc'])
+        dicom_ds.repo.call_git(['gc'])
 
         # TODO: yield error results etc.
         yield dict(
