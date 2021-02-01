@@ -18,6 +18,8 @@ from datalad.utils import opj
 from datalad.tests.utils import (
     assert_result_count,
     eq_,
+    known_failure_windows,
+    known_failure_osx,
     with_tempfile
 )
 
@@ -28,6 +30,8 @@ from datalad_neuroimaging.tests.utils import get_dicom_dataset
 from datalad_neuroimaging.tests.utils import get_bids_dataset
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile
 def test_dicom_metadata_aggregation(path):
     dicoms = get_dicom_dataset('structural')
@@ -42,6 +46,8 @@ def test_dicom_metadata_aggregation(path):
     assert_result_count(res, 1, path=op.join(ds.path, 'acq100'))
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
             keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
@@ -79,12 +85,16 @@ def test_dicom2bids():
         yield _single_session_dicom2bids, l
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 def test_validate_bids_fixture():
     bids_ds = get_bids_dataset()
     # dicom source dataset is absent
     eq_(len(bids_ds.subdatasets(fulfilled=True, return_type='list')), 0)
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,

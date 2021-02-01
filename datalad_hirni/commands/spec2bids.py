@@ -256,7 +256,7 @@ class Spec2Bids(Interface):
                     # contain underscores, since they would be translated to
                     # '.' by ConfigManager when reading them from within the
                     # procedure's datalad-run calls.
-                    from mock import patch
+                    from unittest.mock import patch
 
                     # TODO: Reconsider that patching. Shouldn't it be an update?
                     with patch.dict('os.environ', env_subs):
