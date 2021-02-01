@@ -19,6 +19,8 @@ from datalad.tests.utils import (
     assert_result_count,
     assert_repo_status,
     assert_true,
+    known_failure_windows,
+    known_failure_osx,
     ok_file_under_git,
     skip_if_on_windows,
     SkipTest,
@@ -28,6 +30,9 @@ from datalad.tests.utils import (
 from datalad_hirni.tests.utils import install_demo_dataset, cached_url
 from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 
+
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @usecase
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
@@ -113,7 +118,8 @@ def test_demo_raw_ds(path, toolbox_url):
     # % datalad install -s https://github.com/psychoinformatics-de/hirni-demo --recursive
 
 
-@skip_if_on_windows  # demo uses bash script
+@known_failure_windows  # win not yet supported + bash script in test
+@known_failure_osx  # osx not yet supported
 @usecase
 @with_tempfile
 @with_tempfile

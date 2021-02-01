@@ -4,6 +4,8 @@ import datalad_hirni
 from datalad.api import Dataset
 
 from datalad.tests.utils import (
+    known_failure_windows,
+    known_failure_osx,
     ok_exists,
     ok_file_under_git,
     with_tempfile
@@ -13,6 +15,8 @@ from datalad_hirni.tests import HIRNI_TOOLBOX_URL
 from datalad_neuroimaging.tests.utils import create_dicom_tarball
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile(mkdir=True)
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,

@@ -20,6 +20,8 @@ from datalad.api import (
 from datalad.tests.utils import (
     assert_result_count,
     assert_in,
+    known_failure_windows,
+    known_failure_osx,
     ok_clean_git,
     with_tempfile,
     assert_equal
@@ -81,6 +83,8 @@ class RawDataset(object):
 test_raw_ds = RawDataset()
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
             keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
@@ -160,6 +164,8 @@ def test_default_rules(path, toolbox_url):
     assert_in("dicomseries:all", [s['type'] for s in struct_spec])
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
             keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
@@ -271,6 +277,8 @@ def test_custom_rules(path, toolbox_url):
     assert_in("dicomseries:all", [s['type'] for s in struct_spec])
 
 
+@known_failure_windows  # win not yet supported
+@known_failure_osx  # osx not yet supported
 @with_tempfile
 @cached_url(url=HIRNI_TOOLBOX_URL,
             keys=["MD5E-s413687839--c66e63b502702b363715faff763b7968.simg",
