@@ -16,6 +16,12 @@ We would recommend to consult log of the `Git
 repository <http://github.com/psychoinformatics-de/datalad-hirni>`__ for
 more details.
 
+0.0.8 (February 2, 2021)
+------------------------
+
+-  compatibility with datalad 0.14 series
+-  switch CI to AppVeyor
+
 0.0.7 (October 7, 2020)
 -----------------------
 

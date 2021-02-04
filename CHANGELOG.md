@@ -10,6 +10,11 @@ would recommend to consult log of the [Git
 repository](http://github.com/psychoinformatics-de/datalad-hirni) for more
 details.
 
+
+## 0.0.8 (February 2, 2021)
+- compatibility with datalad 0.14 series
+- switch CI to AppVeyor
+ 
 ## 0.0.7 (October 7, 2020)
 - adapt for datalad 0.13 series and raise dependency to 0.13.4
 - raised dependency on datalad-neuroimaging
