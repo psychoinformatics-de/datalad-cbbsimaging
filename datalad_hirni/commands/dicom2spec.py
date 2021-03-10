@@ -56,8 +56,21 @@ class RuleSet(object):
         self._rule_set = []
         # get a list of paths to build the rule set from
         # Note: assure_list is supposed to return empty list if there's nothing
-        self._file_list = \
-            assure_list(cfg.get("datalad.hirni.dicom2spec.rules"))
+
+        try:
+            self._file_list = assure_list(
+                cfg.get("datalad.hirni.dicom2spec.rules", get_all=True)
+            )
+        except TypeError as e:
+            if "unexpected keyword argument 'get_all'" in str(e):
+                # Older datalad version should return multiple values w/o
+                # needing get_all:
+                self._file_list = assure_list(
+                    cfg.get("datalad.hirni.dicom2spec.rules")
+                )
+            else:
+                raise
+
         lgr.debug("loaded list of rule files: %s", self._file_list)
 
         for file in self._file_list:
@@ -361,10 +374,6 @@ class Dicom2Spec(Interface):
             if meta.get('status', None) not in ['ok', 'notneeded']:
                 yield meta
                 continue
-
-
-
-
 
             if 'dicom' not in meta['metadata']:
 
