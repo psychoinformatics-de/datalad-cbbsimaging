@@ -6,9 +6,10 @@ from setuptools import (
     find_packages,
     findall
 )
-
-from setup_support import (
+from _datalad_build_support.setup import (
     BuildManPage,
+)
+from setup_support import (
     get_version
 )
 
