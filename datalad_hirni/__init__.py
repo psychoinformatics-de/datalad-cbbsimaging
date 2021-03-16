@@ -2,8 +2,6 @@
 
 __docformat__ = 'restructuredtext'
 
-from .version import __version__
-
 import os.path as op
 from os.path import curdir
 from os.path import abspath
@@ -56,3 +54,8 @@ webapp_location = op.join('resources', 'webapp')
 
 from datalad import setup_package
 from datalad import teardown_package
+
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
+
