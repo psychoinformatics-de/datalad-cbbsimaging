@@ -1,2 +1,6 @@
 include datalad_hirni/resources/procedures/*
 graft datalad_hirni/resources/webapp
+include versioneer.py
+include datalad_hirni/_version.py
+include datalad_hirni/resources/rules/*
+include datalad_hirni/resources/dummy_executable.sh
