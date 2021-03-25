@@ -56,8 +56,21 @@ class RuleSet(object):
         self._rule_set = []
         # get a list of paths to build the rule set from
         # Note: assure_list is supposed to return empty list if there's nothing
-        self._file_list = \
-            assure_list(cfg.get("datalad.hirni.dicom2spec.rules"))
+
+        try:
+            self._file_list = assure_list(
+                cfg.get("datalad.hirni.dicom2spec.rules", get_all=True)
+            )
+        except TypeError as e:
+            if "unexpected keyword argument 'get_all'" in str(e):
+                # Older datalad version should return multiple values w/o
+                # needing get_all:
+                self._file_list = assure_list(
+                    cfg.get("datalad.hirni.dicom2spec.rules")
+                )
+            else:
+                raise
+
         lgr.debug("loaded list of rule files: %s", self._file_list)
 
         for file in self._file_list:
@@ -362,10 +375,6 @@ class Dicom2Spec(Interface):
                 yield meta
                 continue
 
-
-
-
-
             if 'dicom' not in meta['metadata']:
 
                 # TODO: Really "notneeded" or simply not a result at all?
@@ -439,16 +448,20 @@ class Dicom2Spec(Interface):
             # used to be 'heudiconv' or 'ignore' for a 'dicomseries', so
             # it's not clear ATM what case this could possibly have catched:
             # heuristic.has_specval(spec_series_list[i], "converter") and \
+            #
+            # Note 2: With that approach we can only consider snippets that
+            # actually have an 'id' field.
             if spec_series_list[i]["type"] == "dicomseries" and \
                 has_specval(spec_series_list[i], "bids-run") and \
                 get_specval(spec_series_list[i], "bids-run") in \
                     [get_specval(s, "bids-run")
                      for s in spec_series_list[i + 1:]
-                     if get_specval(
+                     if has_specval(s, "id") and \
+                        get_specval(
                             s,
                             "description") == get_specval(
                                 spec_series_list[i], "description") and \
-                     get_specval(s, "id") > get_specval(
+                        get_specval(s, "id") > get_specval(
                                              spec_series_list[i], "id")
                      ]:
                 lgr.debug("Ignore SeriesNumber %s for conversion" % i)
