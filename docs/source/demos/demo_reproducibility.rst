@@ -85,7 +85,7 @@ Before we can fire up FSL for our GLM analysis, we need two pieces of custom cod
 Any custom code needs to be tracked if we want to achieve a complete record of how an analysis was conducted. Hence we will store those scripts in our analysis dataset.
 We use the `datalad download-url` command to download the scripts and include them in the analysis dataset::
 
-  % datalad download-url --path code \
+  % datalad download-url --path code/ \
   https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/events2ev3.sh \
   https://raw.githubusercontent.com/myyoda/ohbm2018-training/master/section23/scripts/ffa_design.fsf
 
