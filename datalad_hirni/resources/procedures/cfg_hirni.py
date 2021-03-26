@@ -1,9 +1,9 @@
 """Procedure to apply a sensible default setup to a study dataset
 """
 
+import json
 import sys
 import os.path as op
-import datalad.support.json_py as json_py
 from datalad.distribution.dataset import require_dataset
 
 # bound dataset methods
@@ -66,7 +66,8 @@ bids_description = {
     "Power": "",
 }
 
-json_py.dump(bids_description, "./dataset_description.json")
+with open("./dataset_description.json", 'w') as outfile:
+    json.dump(bids_description, outfile, indent=4, sort_keys=True)
 
 ds.save(message='[HIRNI] Default study dataset configuration')
 
